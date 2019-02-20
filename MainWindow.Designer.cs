@@ -37,7 +37,7 @@
             this.themeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.yellowSnowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.darkBruisesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.textView = new System.Windows.Forms.WebBrowser();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -49,7 +49,7 @@
             this.viewToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1714, 52);
+            this.menuStrip1.Size = new System.Drawing.Size(1714, 49);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -60,7 +60,7 @@
             this.refreshToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(75, 48);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(75, 45);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // openToolStripMenuItem
@@ -68,6 +68,7 @@
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.Size = new System.Drawing.Size(396, 46);
             this.openToolStripMenuItem.Text = "Open...";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // refreshToolStripMenuItem
             // 
@@ -86,7 +87,7 @@
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.themeToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(94, 48);
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(94, 45);
             this.viewToolStripMenuItem.Text = "View";
             // 
             // themeToolStripMenuItem
@@ -110,21 +111,21 @@
             this.darkBruisesToolStripMenuItem.Size = new System.Drawing.Size(297, 46);
             this.darkBruisesToolStripMenuItem.Text = "Dark Bruises";
             // 
-            // webBrowser1
+            // textView
             // 
-            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser1.Location = new System.Drawing.Point(0, 52);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(1714, 900);
-            this.webBrowser1.TabIndex = 1;
+            this.textView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textView.Location = new System.Drawing.Point(0, 49);
+            this.textView.MinimumSize = new System.Drawing.Size(20, 20);
+            this.textView.Name = "textView";
+            this.textView.Size = new System.Drawing.Size(1714, 903);
+            this.textView.TabIndex = 1;
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1714, 952);
-            this.Controls.Add(this.webBrowser1);
+            this.Controls.Add(this.textView);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainWindow";
@@ -147,7 +148,7 @@
         private System.Windows.Forms.ToolStripMenuItem themeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem yellowSnowToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem darkBruisesToolStripMenuItem;
-        private System.Windows.Forms.WebBrowser webBrowser1;
+        private System.Windows.Forms.WebBrowser textView;
     }
 }
 

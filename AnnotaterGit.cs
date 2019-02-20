@@ -8,10 +8,6 @@ namespace YellowSnow
     {
         const string program = "git";
 
-        AnnotaterGit()
-        {
-        }
-
         override public string GetWorkspaceRoot()
         {
             return workspaceRoot;
@@ -35,29 +31,30 @@ namespace YellowSnow
 
         Annotations GetAnnotationsFile(string filename)
         {
-            int slash = filename.LastIndexOf('/');
-            string dir = filename.Substring(0, slash);
+            string dir = filename.GetFilePath();
             Strings arguments = new Strings();
             arguments.Add("annotate");
             arguments.Add("-p");
-            arguments.Add(filename.Substring(filename.Length - slash - 1));
+            arguments.Add(filename.GetFileName());
 
-            var command = new Command(program, dir, arguments);
+            var command = new Command(program, dir, arguments, "GIT_PAGER=cat");
 
+            var source = Strings.Load(filename);
             var times = new Dictionary<long, bool>();
             var lines = new List<Line>();
+            lines.Capacity = source.Count;
             string editor = "???", editorEmail = "";
             long time = 0;
 
             foreach (string output in command.GetOutput())
             {
-                if (output.Length == 0)
+                if (output == null || output.Length == 0)
                     continue;
 
                 if (output[0] != '\t')
                 {
                     int space = output.IndexOf(' ');
-                    string right = output.Substring(output.Length - space - 1);
+                    string right = output.Substring(space + 1);
                     if (output.StartsWith("committer-time "))
                     {
                         time = long.Parse(right);
@@ -82,7 +79,7 @@ namespace YellowSnow
                     lines.Add(new Line
                     {
                         editor = editor,
-                        line = output.Substring(1),
+                        line = source[lines.Count],//output.Substring(1), Can't use this, git has removed whitespace
                         time = time
                     });
                 }

@@ -15,11 +15,20 @@ namespace YellowSnow
         public MainWindow()
         {
             InitializeComponent();
+
+            var annotater = new AnnotaterGit();
+            var annotations = annotater.GetAnnotations("C:\\Users\\Jez\\eclipse-workspace\\mvr.api-merge\\src\\starship\\mvr\\model\\db\\FriendsDB.java");
+
+            textView.DocumentText = annotations.GetHTML();
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
         }
     }
 }

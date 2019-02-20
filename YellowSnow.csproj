@@ -53,6 +53,7 @@
     <Compile Include="AnnotationsVCS.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="Epoch.cs" />
+    <Compile Include="Format.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>

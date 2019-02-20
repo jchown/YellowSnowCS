@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Collections.Generic;
+using System.Text;
 
 namespace YellowSnow
 {
@@ -16,7 +17,7 @@ namespace YellowSnow
 
         protected void CalculateColorMap(Dictionary<long, bool> times)
         {
-            timeToColors.Clear();
+            timeToColors = new Dictionary<long, Color>();
 
             long minTime = long.MaxValue;
             long maxTime = long.MinValue;
@@ -46,6 +47,25 @@ namespace YellowSnow
                 int l = (int)((1 - t) * 255);
                 timeToColors[time] = Color.FromArgb(255, 255, l);
             }
+        }
+
+        public string GetHTML()
+        {
+            var html = new StringBuilder("<html><body>");
+            html.Append("<font face='Courier'>");
+
+            for (int i = 0; i < GetNumLines(); i++)
+            {
+                var color = GetColor(i);
+                html.Append("<div style='background-color: " + ColorTranslator.ToHtml(color) + "; white-space: pre'>");
+                html.Append("<a name='line_" + i + "' href='#line_" + i + "'></a>");
+                html.Append(GetHTML(i));
+                html.Append("</div>");
+            }
+
+            html.Append("</font>");
+            html.Append("</body></html>");
+            return html.ToString();
         }
 
         protected Dictionary<long, Color> timeToColors;
