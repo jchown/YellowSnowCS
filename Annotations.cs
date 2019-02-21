@@ -68,6 +68,30 @@ namespace YellowSnow
             return html.ToString();
         }
 
+        public Image CreateImage(int width, int height)
+        {
+            bitmap = new Bitmap(width, height);
+
+            if (GetNumLines() > 0)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    var color = GetColor((y * GetNumLines()) / height);
+                    for (int x = 0; x < width; x++)
+                        bitmap.SetPixel(x, y, color);
+                }
+            }
+            else
+            {
+                using (var graphics = Graphics.FromImage(bitmap))
+                    graphics.Clear(Color.White);
+            }
+
+            return bitmap;
+        }
+
         protected Dictionary<long, Color> timeToColors;
+
+        private Bitmap bitmap;
     }
 }

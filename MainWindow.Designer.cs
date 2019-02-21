@@ -38,7 +38,9 @@
             this.yellowSnowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.darkBruisesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.textView = new System.Windows.Forms.WebBrowser();
+            this.mapView = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mapView)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -117,8 +119,23 @@
             this.textView.Location = new System.Drawing.Point(0, 49);
             this.textView.MinimumSize = new System.Drawing.Size(20, 20);
             this.textView.Name = "textView";
-            this.textView.Size = new System.Drawing.Size(1714, 903);
+            this.textView.Size = new System.Drawing.Size(1503, 903);
             this.textView.TabIndex = 1;
+            this.textView.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.OnTextViewRegionChanged);
+            this.textView.RegionChanged += new System.EventHandler(this.OnTextViewRegionChanged);
+            this.textView.SizeChanged += new System.EventHandler(this.OnTextViewRegionChanged);
+            this.textView.Resize += new System.EventHandler(this.OnTextViewRegionChanged);
+            // 
+            // mapView
+            // 
+            this.mapView.Dock = System.Windows.Forms.DockStyle.Right;
+            this.mapView.Location = new System.Drawing.Point(1503, 49);
+            this.mapView.Name = "mapView";
+            this.mapView.Size = new System.Drawing.Size(211, 903);
+            this.mapView.TabIndex = 2;
+            this.mapView.TabStop = false;
+            this.mapView.ClientSizeChanged += new System.EventHandler(this.OnMapViewResized);
+            this.mapView.Click += new System.EventHandler(this.OnMapViewClicked);
             // 
             // MainWindow
             // 
@@ -126,12 +143,14 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1714, 952);
             this.Controls.Add(this.textView);
+            this.Controls.Add(this.mapView);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainWindow";
             this.Text = "YellowSnow";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mapView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -149,6 +168,7 @@
         private System.Windows.Forms.ToolStripMenuItem yellowSnowToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem darkBruisesToolStripMenuItem;
         private System.Windows.Forms.WebBrowser textView;
+        private System.Windows.Forms.PictureBox mapView;
     }
 }
 
