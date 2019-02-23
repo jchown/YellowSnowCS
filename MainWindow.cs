@@ -13,6 +13,7 @@ namespace YellowSnow
     public partial class MainWindow : Form
     {
         private Annotations annotations;
+        private Image mapImage;
 
         public MainWindow()
         {
@@ -26,9 +27,16 @@ namespace YellowSnow
         {
             this.annotations = annotations;
 
-            textView.DocumentText = annotations.GetHTML();
+            if (annotations == null)
+            {
+                mapImage = null;
+                mapView.Image = null;
+                return;
+            }
 
-            mapView.Image = annotations.CreateImage(mapView.Width, mapView.Height);
+            textView.DocumentText = annotations.GetHTML();
+            mapImage = annotations.CreateImage(mapView.Width, mapView.Height);
+            UpdateMap();
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -42,8 +50,11 @@ namespace YellowSnow
 
         private void OnMapViewResized(object sender, EventArgs e)
         {
-            if (annotations != null)
-                mapView.Image = annotations.CreateImage(mapView.Width, mapView.Height);
+            if (annotations == null)
+                return;
+
+            mapImage = annotations.CreateImage(mapView.Width, mapView.Height);
+            UpdateMap();
         }
 
         private void OnMapViewClicked(object sender, EventArgs e)
@@ -68,28 +79,28 @@ namespace YellowSnow
 
         private void UpdateMap()
         {
-            var top = textView.Document.GetElementsByTagName("HTML")[0].ScrollTop;
-//            var top = textView.Document.GetElementsByTagName("HTML")[0].ScrollTop;
-            int from = GetLine(1, 1);
-            int to = GetLine(1, textView.Height - 2);
+            if (annotations == null)
+                return;
+
+            if (textView.Document.Body == null)
+                return;
+
+            var windowHeight = textView.Height;
+            var documentHeight = textView.Document.Body.ScrollRectangle.Height;
+            var top = textView.Document.Body.ScrollTop;
+
+            int from = (top * annotations.GetNumLines()) / documentHeight;
+            int to = ((top + windowHeight) * annotations.GetNumLines()) / documentHeight;
+
+            mapView.Image = MapView.RenderBox(mapImage, annotations, from, to);
         }
-
-        private int GetLine(int x, int y)
-        {
-            var element = textView.Document.GetElementFromPoint(new Point(x, y));
-            if (element == null)
-                return 0;
-
-            var attrib = element.GetAttribute("name");
-            if (element.InnerHtml.StartsWith("<FONT"))
-                return 0;
-
-            return int.Parse(element.Name.Substring(5));
-        }
-
+        
         private void OnTextViewDocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             textView.Document.Body.MouseOver += OnTextViewMouseHover;
+            textView.Document.Window.AttachEventHandler("onscroll", OnTextViewScroll);
+
+            UpdateMap();
         }
 
         private void OnTextViewMouseHover(object sender, EventArgs e)
@@ -115,7 +126,9 @@ namespace YellowSnow
                 return;
             }
 
-            status.Text = annotations.GetSummary(int.Parse(href.Substring(5)));
+            status.Text = textView.Document.Body.ScrollTop.ToString();
+
+            //            status.Text = annotations.GetSummary(int.Parse(href.Substring(5)));
         }
     }
 }
