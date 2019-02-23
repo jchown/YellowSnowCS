@@ -86,5 +86,36 @@ namespace YellowSnow
 
             return int.Parse(element.Name.Substring(5));
         }
+
+        private void OnTextViewDocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+            textView.Document.Body.MouseOver += OnTextViewMouseHover;
+        }
+
+        private void OnTextViewMouseHover(object sender, EventArgs e)
+        {
+            if (annotations == null)
+            {
+                status.Text = "";
+                return;
+            }
+
+            var htmlEvent = (e as HtmlElementEventArgs);
+            if (htmlEvent == null)
+            {
+                status.Text = "";
+                return;
+            }
+
+            var element = htmlEvent.ToElement;
+            string href = element.GetAttribute("id");
+            if (href == null || !href.StartsWith("line_"))
+            {
+                status.Text = "";
+                return;
+            }
+
+            status.Text = annotations.GetSummary(int.Parse(href.Substring(5)));
+        }
     }
 }

@@ -57,7 +57,7 @@ namespace YellowSnow
             for (int i = 0; i < GetNumLines(); i++)
             {
                 var color = GetColor(i);
-                html.Append("<div style='background-color: " + ColorTranslator.ToHtml(color) + "; white-space: pre'>");
+                html.Append("<div style='background-color: " + ColorTranslator.ToHtml(color) + "; white-space: pre' id='line_" + i + "'>");
                 html.Append("<a name='line_" + i + "' href='#line_" + i + "'></a>");
                 html.Append(GetHTML(i));
                 html.Append("</div>");

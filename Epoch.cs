@@ -12,7 +12,12 @@ namespace YellowSnow
 
         public static long ToLong(DateTime dateTime)
         {
-            return (long) (dateTime - UNIX_EPOCH).TotalSeconds;
+            return (long)(dateTime - UNIX_EPOCH).TotalSeconds;
+        }
+
+        public static DateTime FromLong(long timestamp)
+        {
+            return UNIX_EPOCH.AddSeconds(timestamp);
         }
     }
 }

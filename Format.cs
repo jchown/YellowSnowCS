@@ -32,7 +32,7 @@ namespace YellowSnow
 
         internal static object Timestamp(long time)
         {
-            return time.ToString();
+            return Epoch.FromLong(time).ToString();
         }
 
         internal static string Line(string line)
