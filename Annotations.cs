@@ -13,11 +13,11 @@ namespace YellowSnow
 
         public abstract string GetHTML(int line);
 
-        public abstract Color GetColor(int line);
+        public abstract int GetLevel(int line);
 
         protected void CalculateColorMap(Dictionary<long, bool> times)
         {
-            timeToColors = new Dictionary<long, Color>();
+            timeToLevel = new Dictionary<long, int>();
 
             long minTime = long.MaxValue;
             long maxTime = long.MinValue;
@@ -44,26 +44,32 @@ namespace YellowSnow
                 double t1 = ((double)i) / sorted.Count;
 
                 double t = t0 * t1 * t0 * t1 * t0 * t1;
-                int l = (int)((1 - t) * 255);
-                timeToColors[time] = Color.FromArgb(255, 255, l);
+                timeToLevel[time] = (int)(t * 255);
             }
         }
 
         public string GetHTML()
         {
-            var html = new StringBuilder("<html><body>");
-            html.Append("<font face='Courier'>");
+            var html = new StringBuilder("<html>");
+            html.Append("<head><style>");
+            html.Append(".line {  white-space: pre; font-family: Courier; width:100%; }");
 
+            for (int i = 0; i < 256; i++)
+            {
+                var color = Colorizer.GetColor(i);
+                html.Append(string.Format(".level_{0} {{ background-color: {1} }}", i, ColorTranslator.ToHtml(color)));
+            }
+            html.Append("</style></head>");
+
+            html.Append("<body>");
             for (int i = 0; i < GetNumLines(); i++)
             {
-                var color = GetColor(i);
-                html.Append("<div style='background-color: " + ColorTranslator.ToHtml(color) + "; white-space: pre' id='line_" + i + "'>");
-                html.Append("<a name='line_" + i + "' href='#line_" + i + "'></a>");
+                html.Append(string.Format("<div class='line level_{0}' id='line_{1}'>", GetLevel(i), i));
+                html.Append(string.Format("<a name='line_{0}' href='#line_{0}'></a>", i));
                 html.Append(GetHTML(i));
                 html.Append("</div>");
             }
 
-            html.Append("</font>");
             html.Append("</body></html>");
             return html.ToString();
         }
@@ -76,7 +82,8 @@ namespace YellowSnow
             {
                 for (int y = 0; y < height; y++)
                 {
-                    var color = GetColor((y * GetNumLines()) / height);
+                    var level = GetLevel((y * GetNumLines()) / height);
+                    var color = Colorizer.GetColor(level);
                     for (int x = 0; x < width; x++)
                         bitmap.SetPixel(x, y, color);
                 }
@@ -90,7 +97,7 @@ namespace YellowSnow
             return bitmap;
         }
 
-        protected Dictionary<long, Color> timeToColors;
+        protected Dictionary<long, int> timeToLevel;
 
         private Bitmap bitmap;
     }

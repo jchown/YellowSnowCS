@@ -72,20 +72,20 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(396, 46);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(230, 46);
             this.openToolStripMenuItem.Text = "Open...";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // refreshToolStripMenuItem
             // 
             this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
-            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(396, 46);
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(230, 46);
             this.refreshToolStripMenuItem.Text = "Refresh";
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(396, 46);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(230, 46);
             this.exitToolStripMenuItem.Text = "Exit";
             // 
             // viewToolStripMenuItem
@@ -140,6 +140,7 @@
             this.mapView.TabStop = false;
             this.mapView.ClientSizeChanged += new System.EventHandler(this.OnMapViewResized);
             this.mapView.Click += new System.EventHandler(this.OnMapViewClicked);
+            this.mapView.MouseMove += new System.Windows.Forms.MouseEventHandler(this.OnMapViewMouseMove);
             // 
             // statusStrip1
             // 
@@ -147,16 +148,16 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.status,
             this.progressBar});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 930);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 904);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1503, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1503, 48);
             this.statusStrip1.TabIndex = 3;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // status
             // 
             this.status.Name = "status";
-            this.status.Size = new System.Drawing.Size(1308, 43);
+            this.status.Size = new System.Drawing.Size(1386, 43);
             this.status.Spring = true;
             // 
             // progressBar

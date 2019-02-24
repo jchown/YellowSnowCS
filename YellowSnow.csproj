@@ -51,6 +51,7 @@
     <Compile Include="Annotations.cs" />
     <Compile Include="AnnotationsFS.cs" />
     <Compile Include="AnnotationsVCS.cs" />
+    <Compile Include="Colorizer.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="Epoch.cs" />
     <Compile Include="Format.cs" />

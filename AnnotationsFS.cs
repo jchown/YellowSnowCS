@@ -24,10 +24,10 @@ namespace YellowSnow
             return files.Count;
         }
 
-        override public Color GetColor(int line)
+        override public int GetLevel(int line)
         {
             var file = files[line];
-            return timeToColors[file.modified];
+            return timeToLevel[file.modified];
         }
 
         override public string GetSummary(int line)

@@ -28,11 +28,10 @@ namespace YellowSnow
             return lines.Count;
         }
 
-        override public Color GetColor(int line)
+        override public int GetLevel(int line)
         {
-            return timeToColors[lines[line].time];
+            return timeToLevel[lines[line].time];
         }
-
 
         override public string GetSummary(int line)
         {

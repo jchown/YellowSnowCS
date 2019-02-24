@@ -14,6 +14,7 @@ namespace YellowSnow
     {
         private Annotations annotations;
         private Image mapImage;
+        private Dictionary<int, HtmlElement> lineElements;
 
         public MainWindow()
         {
@@ -34,7 +35,9 @@ namespace YellowSnow
                 return;
             }
 
+            lineElements = new Dictionary<int, HtmlElement>();
             textView.DocumentText = annotations.GetHTML();
+
             mapImage = annotations.CreateImage(mapView.Width, mapView.Height);
             UpdateMap();
         }
@@ -59,7 +62,33 @@ namespace YellowSnow
 
         private void OnMapViewClicked(object sender, EventArgs e)
         {
+            if (annotations == null)
+                return;
 
+            var mouse = e as MouseEventArgs;
+            if (mouse == null)
+                return;
+
+            ShowMapViewLine(mouse.X, mouse.Y);
+        }
+
+        private void OnMapViewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (annotations == null)
+                return;
+
+            var mouse = e as MouseEventArgs;
+            if (mouse == null)
+                return;
+
+            if (mouse.Button.HasFlag(MouseButtons.Left))
+                ShowMapViewLine(mouse.X, mouse.Y);
+        }
+
+        private void ShowMapViewLine(int x, int y)
+        {
+            int line = (y * annotations.GetNumLines()) / mapView.Height;
+            lineElements[line].ScrollIntoView(false);
         }
 
         private void OnTextViewRegionChanged(object sender, EventArgs e)
@@ -97,6 +126,16 @@ namespace YellowSnow
         
         private void OnTextViewDocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
+            var elems = textView.Document.Body.GetElementsByTagName("A");
+            for (var ee = elems.GetEnumerator(); ee.MoveNext();)
+            {
+                var elem = ee.Current as HtmlElement;
+                var name = elem.Name;
+
+                if (name.StartsWith("line_"))
+                    lineElements[int.Parse(name.Substring(5))] = elem;
+            }
+
             textView.Document.Body.MouseOver += OnTextViewMouseHover;
             textView.Document.Window.AttachEventHandler("onscroll", OnTextViewScroll);
 
@@ -126,9 +165,7 @@ namespace YellowSnow
                 return;
             }
 
-            status.Text = textView.Document.Body.ScrollTop.ToString();
-
-            //            status.Text = annotations.GetSummary(int.Parse(href.Substring(5)));
+            status.Text = annotations.GetSummary(int.Parse(href.Substring(5)));
         }
     }
 }
