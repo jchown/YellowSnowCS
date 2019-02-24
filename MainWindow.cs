@@ -14,7 +14,6 @@ namespace YellowSnow
     {
         private Annotations annotations;
         private Image mapImage;
-        private Dictionary<int, HtmlElement> lineElements;
 
         public MainWindow()
         {
@@ -35,7 +34,6 @@ namespace YellowSnow
                 return;
             }
 
-            lineElements = new Dictionary<int, HtmlElement>();
             textView.DocumentText = annotations.GetHTML();
 
             mapImage = annotations.CreateImage(mapView.Width, mapView.Height);
@@ -88,7 +86,7 @@ namespace YellowSnow
         private void ShowMapViewLine(int x, int y)
         {
             int line = (y * annotations.GetNumLines()) / mapView.Height;
-            lineElements[line].ScrollIntoView(false);
+            textView.Document.GetElementById("line_" + line).ScrollIntoView(false);
         }
 
         private void OnTextViewRegionChanged(object sender, EventArgs e)
@@ -126,16 +124,6 @@ namespace YellowSnow
         
         private void OnTextViewDocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            var elems = textView.Document.Body.GetElementsByTagName("A");
-            for (var ee = elems.GetEnumerator(); ee.MoveNext();)
-            {
-                var elem = ee.Current as HtmlElement;
-                var name = elem.Name;
-
-                if (name.StartsWith("line_"))
-                    lineElements[int.Parse(name.Substring(5))] = elem;
-            }
-
             textView.Document.Body.MouseOver += OnTextViewMouseHover;
             textView.Document.Window.AttachEventHandler("onscroll", OnTextViewScroll);
 
