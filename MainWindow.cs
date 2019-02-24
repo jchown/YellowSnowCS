@@ -155,5 +155,10 @@ namespace YellowSnow
 
             status.Text = annotations.GetSummary(int.Parse(href.Substring(5)));
         }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }
