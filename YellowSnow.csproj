@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>YellowSnow.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="MetroFramework, Version=1.2.0.3, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
       <HintPath>packages\MetroFramework.RunTime.1.2.0.3\lib\net40-Client\MetroFramework.dll</HintPath>
@@ -58,6 +61,7 @@
   <ItemGroup>
     <Compile Include="Annotater.cs" />
     <Compile Include="AnnotaterGit.cs" />
+    <Compile Include="AnnotaterSVN.cs" />
     <Compile Include="Annotations.cs" />
     <Compile Include="AnnotationsFS.cs" />
     <Compile Include="AnnotationsVCS.cs" />
@@ -107,7 +111,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Attributions.txt" />
+    <Content Include="Splash.png" />
     <Content Include="MetroFramework.txt" />
+    <Content Include="Splash.svg" />
+    <Content Include="YellowSnow.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

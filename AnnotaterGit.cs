@@ -18,18 +18,7 @@ namespace YellowSnow
             return Workspace.FindDir(filename, ".git", ref workspaceRoot);
         }
 
-        override public Annotations GetAnnotations(string filename)
-        {
-            if (File.Exists(filename))
-                return GetAnnotationsFile(filename);
-
-            if (Directory.Exists(filename))
-                return GetAnnotationsDir(filename);
-
-            throw new FileNotFoundException(filename);
-        }
-
-        Annotations GetAnnotationsFile(string filename)
+        override public Annotations GetAnnotationsFile(string filename)
         {
             string dir = filename.GetFilePath();
             Strings arguments = new Strings();
@@ -88,7 +77,7 @@ namespace YellowSnow
             return new AnnotationsVCS(lines);
         }
 
-        Annotations GetAnnotationsDir(string directory)
+        override public Annotations GetAnnotationsDir(string directory)
         {
             List<FSEntry> files = new List<FSEntry>();
 
@@ -96,7 +85,6 @@ namespace YellowSnow
             {
                 FileAttributes attr = File.GetAttributes(file);
 
-//                QFileInfo info(file);
                 string editor = File.GetAccessControl(file).GetOwner(typeof(System.Security.Principal.NTAccount)).ToString();
                 long edited = Epoch.ToLong(File.GetLastAccessTime(file));
                 string commitHash = null, authorName = null, authorEmail = null, subject = null;

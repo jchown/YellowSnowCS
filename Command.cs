@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Threading;
+using System.Xml;
 
 namespace YellowSnow
 {
@@ -39,7 +37,7 @@ namespace YellowSnow
                 }
             }
         }
-        
+
         private void Log(string data)
         {
             lock (output)
@@ -51,6 +49,13 @@ namespace YellowSnow
         public Strings GetOutput()
         {
             return output;
+        }
+
+        public XmlDocument GetXML()
+        {
+            var xml = new XmlDocument();
+            xml.LoadXml(GetOutput().Join("\n"));
+            return xml;
         }
     }
 }

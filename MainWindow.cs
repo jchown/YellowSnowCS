@@ -19,8 +19,11 @@ namespace YellowSnow
         {
             InitializeComponent();
 
-            var annotater = new AnnotaterGit();
-            SetAnnotations(annotater.GetAnnotations("C:\\Users\\Jez\\eclipse-workspace\\mvr.api-merge\\src\\starship\\mvr\\model\\db\\FriendsDB.java"));
+            //            var annotater = new AnnotaterGit();
+            //           SetAnnotations(annotater.GetAnnotations("C:\\Users\\Jez\\eclipse-workspace\\mvr.api-merge\\src\\starship\\mvr\\model\\db\\FriendsDB.java"));
+
+            var annotater = new AnnotaterSVN();
+            SetAnnotations(annotater.GetAnnotations("C:\\Work\\vTime\\vTime_Now_iOS\\bin\\prebuild.xml"));
         }
 
         void SetAnnotations(Annotations annotations)
