@@ -10,6 +10,7 @@ namespace YellowSnow
     {
         private string program;
         private string dateFormat;
+        private string workspaceRoot;
 
         public AnnotaterSVN()
         {
@@ -112,14 +113,14 @@ namespace YellowSnow
             return new AnnotationsFS(lines);
         }
 
-        public override string GetWorkspaceRoot()
+        override public string GetWorkspaceRoot()
         {
-            throw new NotImplementedException();
+            return workspaceRoot;
         }
 
         public override bool IsInWorkspace(string filename)
         {
-            throw new NotImplementedException();
+            return Workspace.FindDir(filename, ".svn", ref workspaceRoot);
         }
     }
 }

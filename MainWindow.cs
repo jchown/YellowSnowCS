@@ -12,6 +12,7 @@ namespace YellowSnow
 {
     public partial class MainWindow : Form
     {
+        private List<Annotater> annotaters;
         private Annotations annotations;
         private Image mapImage;
 
@@ -19,11 +20,26 @@ namespace YellowSnow
         {
             InitializeComponent();
 
-            //            var annotater = new AnnotaterGit();
-            //           SetAnnotations(annotater.GetAnnotations("C:\\Users\\Jez\\eclipse-workspace\\mvr.api-merge\\src\\starship\\mvr\\model\\db\\FriendsDB.java"));
+            annotaters = new List<Annotater>();
+            annotaters.Add(new AnnotaterGit());
+            annotaters.Add(new AnnotaterSVN());
 
-            var annotater = new AnnotaterSVN();
-            SetAnnotations(annotater.GetAnnotations("C:\\Work\\vTime\\vTime_Now_iOS\\bin\\prebuild.xml"));
+            //           Open("C:\\Users\\Jez\\eclipse-workspace\\mvr.api-merge\\src\\starship\\mvr\\model\\db\\FriendsDB.java");
+            Open("C:\\Work\\vTime\\vTime_Now_iOS\\bin\\prebuild.xml");
+        }
+
+        void Open(string filename)
+        {
+            foreach (Annotater annotater in annotaters)
+            {
+                if (!annotater.IsInWorkspace(filename))
+                    continue;
+
+                SetAnnotations(annotater.GetAnnotations(filename));
+                return;
+            }
+
+            MessageBox.Show("A version control system workspace was not found.\n\nIs this file in Git or Subversion?", "No VCS Workspace");
         }
 
         void SetAnnotations(Annotations annotations)
