@@ -10,7 +10,6 @@ namespace YellowSnow
     {
         private string program;
         private string dateFormat;
-        private string workspaceRoot;
 
         public AnnotaterSVN()
         {
@@ -111,11 +110,6 @@ namespace YellowSnow
             */
 
             return new AnnotationsFS(lines);
-        }
-
-        override public string GetWorkspaceRoot()
-        {
-            return workspaceRoot;
         }
 
         public override bool IsInWorkspace(string filename)

@@ -19,6 +19,11 @@ namespace YellowSnow
             CalculateColorMap(times);
         }
 
+        override public Line GetLine(int line)
+        {
+            return new Line();
+        }
+
         override public int GetNumLines()
         {
             return files.Count;

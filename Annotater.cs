@@ -15,7 +15,10 @@ namespace YellowSnow
             throw new FileNotFoundException(filename);
         }
 
-        abstract public string GetWorkspaceRoot();
+        public string GetWorkspaceRoot()
+        {
+            return workspaceRoot;
+        }
 
         abstract public bool IsInWorkspace(string filename);
 

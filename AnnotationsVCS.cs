@@ -23,6 +23,11 @@ namespace YellowSnow
             CalculateColorMap(times);
         }
 
+        override public Line GetLine(int line)
+        {
+            return lines[line];
+        }
+
         override public int GetNumLines()
         {
             return lines.Count;

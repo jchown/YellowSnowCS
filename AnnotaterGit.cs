@@ -8,11 +8,6 @@ namespace YellowSnow
     {
         const string program = "git";
 
-        override public string GetWorkspaceRoot()
-        {
-            return workspaceRoot;
-        }
-
         override public bool IsInWorkspace(string filename)
         {
             return Workspace.FindDir(filename, ".git", ref workspaceRoot);

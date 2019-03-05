@@ -1,36 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
+using System.Windows.Media;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace YellowSnow
 {
     public static class MapView
     {
-        static Bitmap buffer = null;
+        static SoftImage buffer = null;
 
-        public static Image RenderBox(Image source, Annotations annotations, int start, int end)
+        public static SoftImage RenderBox(SoftImage source, Annotations annotations, int start, int end)
         {
-            int imageWidth = source.Width;
-            int imageHeight = source.Height;
+            int imageWidth = source.width;
+            int imageHeight = source.height;
 
-            if (buffer == null || buffer.Width != imageWidth || buffer.Height != source.Height)
-                buffer = new Bitmap(imageWidth, imageHeight);
+            if (buffer == null || buffer.width != imageWidth || buffer.height != source.height)
+                buffer = new SoftImage(imageWidth, imageHeight);
 
             int x1 = 1;
             int x2 = imageWidth - 2;
             int y1 = (start * imageHeight) / annotations.GetNumLines();
             int y2 = ((end + 1) * imageHeight) / annotations.GetNumLines();
 
-            using (var graphics = Graphics.FromImage(buffer))
-            {
-                graphics.DrawImage(source, 0, 0);
-
-                var pen = new Pen(Brushes.DarkGray);
-
-                graphics.DrawRectangle(pen, x1, y1, x2 - x1, y2 - y1);
-            }
+            buffer.Copy(source, 0, 0);
+            buffer.Rectangle(Color.FromRgb(40, 40, 40), x1, y1, x2, y2);
 
             return buffer;
         }

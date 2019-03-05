@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Drawing;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace YellowSnow
 {
@@ -14,6 +15,8 @@ namespace YellowSnow
         public abstract string GetHTML(int line);
 
         public abstract int GetLevel(int line);
+
+        public abstract Line GetLine(int line);
 
         protected void CalculateColorMap(Dictionary<long, bool> times)
         {
@@ -52,12 +55,12 @@ namespace YellowSnow
         {
             var html = new StringBuilder("<html>");
             html.Append("<head><style>");
-            html.Append(".line {  white-space: pre; font-family: Courier; width:100%; }");
+            html.Append(".line {  white-space: pre; font-family: Courier; width:100%; font-size: 10pt; }");
 
             for (int i = 0; i < 256; i++)
             {
                 var color = Colorizer.GetColor(i);
-                html.Append(string.Format(".level_{0} {{ background-color: {1} }}", i, ColorTranslator.ToHtml(color)));
+                html.Append(string.Format(".level_{0} {{ background-color: {1} }}", i, ToHtml(color)));
             }
             html.Append("</style></head>");
 
@@ -74,9 +77,14 @@ namespace YellowSnow
             return html.ToString();
         }
 
-        public Image CreateImage(int width, int height)
+        private string ToHtml(Color color)
         {
-            bitmap = new Bitmap(width, height);
+            return string.Format("#{0:X2}{1:X2}{2:X2}", color.R, color.G, color.B);
+        }
+
+        public SoftImage CreateImage(int width, int height)
+        {
+            bitmap = new SoftImage(width, height);
 
             if (GetNumLines() > 0)
             {
@@ -90,8 +98,12 @@ namespace YellowSnow
             }
             else
             {
-                using (var graphics = Graphics.FromImage(bitmap))
-                    graphics.Clear(Color.White);
+                Color color = Colorizer.GetColor(0);
+                for (int y = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++)
+                        bitmap.SetPixel(x, y, color);
+                }
             }
 
             return bitmap;
@@ -99,6 +111,6 @@ namespace YellowSnow
 
         protected Dictionary<long, int> timeToLevel;
 
-        private Bitmap bitmap;
+        private SoftImage bitmap = null;
     }
 }

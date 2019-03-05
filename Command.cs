@@ -54,7 +54,8 @@ namespace YellowSnow
         public XmlDocument GetXML()
         {
             var xml = new XmlDocument();
-            xml.LoadXml(GetOutput().Join("\n"));
+            var output = GetOutput();
+            xml.LoadXml(output.Join("\n"));
             return xml;
         }
     }
