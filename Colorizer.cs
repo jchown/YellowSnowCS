@@ -1,4 +1,4 @@
-﻿using System.Windows.Media;
+﻿using System.Drawing;
 
 namespace YellowSnow
 {
@@ -6,8 +6,8 @@ namespace YellowSnow
     {
         public static Color GetColor(int level)
         {
-            Color from = Color.FromRgb(255, 255, 255);
-            Color to = Color.FromRgb(255, 255, 0);
+            Color from = Color.FromArgb(255, 255, 255);
+            Color to = Color.FromArgb(255, 255, 0);
 
 //            Color from = Color.FromArgb(40, 40, 40);
 //          Color to = Color.MediumPurple;
@@ -21,7 +21,7 @@ namespace YellowSnow
             float g = dG * l + from.G;
             float b = dB * l + from.B;
 
-            return Color.FromRgb((byte)r, (byte)g, (byte)b);
+            return Color.FromArgb((byte)r, (byte)g, (byte)b);
         }
     }
 }

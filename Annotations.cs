@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace YellowSnow
 {
@@ -82,9 +81,9 @@ namespace YellowSnow
             return string.Format("#{0:X2}{1:X2}{2:X2}", color.R, color.G, color.B);
         }
 
-        public SoftImage CreateImage(int width, int height)
+        public Image CreateImage(int width, int height)
         {
-            bitmap = new SoftImage(width, height);
+            bitmap = new Bitmap(width, height);
 
             if (GetNumLines() > 0)
             {
@@ -98,12 +97,8 @@ namespace YellowSnow
             }
             else
             {
-                Color color = Colorizer.GetColor(0);
-                for (int y = 0; y < height; y++)
-                {
-                    for (int x = 0; x < width; x++)
-                        bitmap.SetPixel(x, y, color);
-                }
+                using (var graphics = Graphics.FromImage(bitmap))
+                    graphics.Clear(Color.White);
             }
 
             return bitmap;
@@ -111,6 +106,6 @@ namespace YellowSnow
 
         protected Dictionary<long, int> timeToLevel;
 
-        private SoftImage bitmap = null;
+        private Bitmap bitmap = null;
     }
 }

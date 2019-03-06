@@ -2,8 +2,13 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Forms;
-using System.Windows.Navigation;
+using System.Drawing;
 using mshtml;
+using System.Windows.Media.Imaging;
+using System.Runtime.InteropServices;
+using Microsoft.Win32;
+using Application = System.Windows.Application;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace YellowSnow
 {
@@ -12,9 +17,10 @@ namespace YellowSnow
     /// </summary>
     public partial class MainWindow : Window
     {
+        private string filename;
         private List<Annotater> annotaters;
         private Annotations annotations;
-        private SoftImage mapImage;
+        private Image mapImage;
 
         public MainWindow()
         {
@@ -29,6 +35,24 @@ namespace YellowSnow
             
             text.DocumentCompleted += OnTextLoadCompleted;
             map.MouseMove += OnMapMouseMoved;
+        }
+
+        public void OnFileOpen(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Multiselect = false;
+            openFileDialog.Title = "Open File in VCS";
+
+            if (filename != null)
+                openFileDialog.InitialDirectory = filename.GetFilePath();
+
+            if (openFileDialog.ShowDialog() == true)
+                Open(openFileDialog.FileName);
+        }
+
+        public void OnFileExit(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
 
         private void OnTextLoadCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
@@ -99,7 +123,9 @@ namespace YellowSnow
                 if (!annotater.IsInWorkspace(filename))
                     continue;
 
+                Title = "Yellow Snow - " + filename;
                 status.Text = "Analysing " + filename;
+                this.filename = filename;
                 var annotations = annotater.GetAnnotations(filename);
 
                 status.Text = "Rendering " + filename;
@@ -123,7 +149,7 @@ namespace YellowSnow
 
             text.DocumentText = annotations.GetHTML();
 
-            mapImage = annotations.CreateImage(128, Math.Max(512, annotations.GetNumLines()));
+            mapImage = annotations.CreateImage(256, Math.Max(512, annotations.GetNumLines()));
             UpdateMap();
         }
 
@@ -145,8 +171,30 @@ namespace YellowSnow
             int from = (top * annotations.GetNumLines()) / documentHeight;
             int to = (int) ((top + windowHeight) * annotations.GetNumLines()) / documentHeight;
 
-            map.Source = MapView.RenderBox(mapImage, annotations, from, to).ToBitmap();
+            map.Source = ToWPF(MapView.RenderBox(mapImage, annotations, from, to));
         }
+
+        public static BitmapSource ToWPF(Image myImage)
+        {
+            var bitmap = new Bitmap(myImage);
+            IntPtr bmpPt = bitmap.GetHbitmap();
+            BitmapSource bitmapSource =
+             System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+                   bmpPt,
+                   IntPtr.Zero,
+                   Int32Rect.Empty,
+                   BitmapSizeOptions.FromEmptyOptions());
+
+            //freeze bitmapSource and clear memory to avoid memory leaks
+            bitmapSource.Freeze();
+            DeleteObject(bmpPt);
+
+            return bitmapSource;
+        }
+
+        [DllImport("gdi32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool DeleteObject(IntPtr value);
     }
 }
 

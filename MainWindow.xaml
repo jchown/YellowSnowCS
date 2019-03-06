@@ -6,8 +6,25 @@
         xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         xmlns:local="clr-namespace:YellowSnow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Yellow Snow" Height="450" Width="800">
     <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open" Click="OnFileOpen"/>
+                <MenuItem Header="Exit" Click="OnFileExit" />
+            </MenuItem>
+            <MenuItem Header="_View">
+                <MenuItem Header="_Theme">
+                    <MenuItem Header="Yellow Snow"/>
+                    <MenuItem Header="Dark Bruise"/>
+                </MenuItem>
+                <MenuItem Header="_Font Size">
+                    <MenuItem Header="8pt"/>
+                    <MenuItem Header="10pt"/>
+                    <MenuItem Header="12pt"/>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem>
                 <TextBlock Name="status" />
