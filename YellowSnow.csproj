@@ -67,6 +67,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AnnotaterNull.cs" />
     <Compile Include="Themes.cs" />
     <Compile Include="StringExt.cs" />
     <Compile Include="Strings.cs" />

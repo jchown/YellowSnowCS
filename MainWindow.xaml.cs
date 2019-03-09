@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using Microsoft.Win32;
 using Application = System.Windows.Application;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+using MessageBox = System.Windows.MessageBox;
 
 namespace YellowSnow
 {
@@ -17,10 +18,11 @@ namespace YellowSnow
     /// </summary>
     public partial class MainWindow : Window
     {
-        private string filename;
+        private string          filename;
         private List<Annotater> annotaters;
-        private Annotations annotations;
-        private Image mapImage;
+        private AnnotaterNull   annotaterNull;
+        private Annotations     annotations;
+        private Image           mapImage;
 
         public MainWindow()
         {
@@ -30,9 +32,12 @@ namespace YellowSnow
             annotaters.Add(new AnnotaterGit());
             annotaters.Add(new AnnotaterSVN());
 
-            Open("C:\\Users\\Jez\\eclipse-workspace\\mvr.api-merge\\src\\starship\\mvr\\model\\db\\FriendsDB.java");
+            annotaterNull = new AnnotaterNull();
+
+            Open("C:\\Work\\Burly\\BurlyChassisHomepage\\config.toml");
+            // Open("C:\\Users\\Jez\\eclipse-workspace\\mvr.api-merge\\src\\starship\\mvr\\model\\db\\FriendsDB.java");
             // Open("C:\\Work\\vTime\\vTime_Now_iOS\\bin\\prebuild.xml");#
-            
+
             text.DocumentCompleted += OnTextLoadCompleted;
             map.MouseMove += OnMapMouseMoved;
 
@@ -134,10 +139,14 @@ namespace YellowSnow
 
                 status.Text = "Rendering " + filename;
                 SetAnnotations(annotations);
+
+                status.Text = "";
                 return;
             }
 
-            //MessageBox.Show("A version control system workspace was not found.\n\nIs this file in Git or Subversion?", "No VCS Workspace");
+            MessageBox.Show("A version control system workspace was not found.\n\nIs this file in Git or Subversion?", "No VCS Workspace");
+
+            SetAnnotations(annotaterNull.GetAnnotations(filename));
         }
 
         void SetAnnotations(Annotations annotations)
