@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Forms;
+using System.Windows.Input;
 using System.Drawing;
-using mshtml;
 using System.Windows.Media.Imaging;
 using System.Runtime.InteropServices;
-using Microsoft.Win32;
-using Application = System.Windows.Application;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
-using MessageBox = System.Windows.MessageBox;
 
 namespace YellowSnow
 {
@@ -34,8 +30,8 @@ namespace YellowSnow
 
             annotaterNull = new AnnotaterNull();
 
-            Open("C:\\Work\\Burly\\BurlyChassisHomepage\\config.toml");
-            // Open("C:\\Users\\Jez\\eclipse-workspace\\mvr.api-merge\\src\\starship\\mvr\\model\\db\\FriendsDB.java");
+            // Open("C:\\Work\\Burly\\BurlyChassisHomepage\\config.toml");
+            Open("C:\\Users\\Jez\\eclipse-workspace\\mvr.api-merge\\src\\starship\\mvr\\model\\db\\FriendsDB.java");
             // Open("C:\\Work\\vTime\\vTime_Now_iOS\\bin\\prebuild.xml");#
 
             text.DocumentCompleted += OnTextLoadCompleted;
@@ -64,7 +60,7 @@ namespace YellowSnow
             Application.Current.Shutdown();
         }
 
-        private void OnTextLoadCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        private void OnTextLoadCompleted(object sender, System.Windows.Forms.WebBrowserDocumentCompletedEventArgs e)
         {
             UpdateMap();
 
@@ -86,8 +82,11 @@ namespace YellowSnow
             if (mouse == null)
                 return;
 
-            if (mouse.Button.HasFlag(MouseButtons.Left))
-                ShowMapViewLine(mouse.X, mouse.Y);
+            if (!mouse.LeftButton.HasFlag(MouseButtonState.Pressed))
+                return;
+
+            var pos = mouse.GetPosition(map);
+            ShowMapViewLine((int) pos.X, (int) pos.Y);
         }
 
         private void OnTextMouseHover(object sender, EventArgs e)
@@ -98,7 +97,7 @@ namespace YellowSnow
                 return;
             }
 
-            var htmlEvent = (e as HtmlElementEventArgs);
+            var htmlEvent = (e as System.Windows.Forms.HtmlElementEventArgs);
             if (htmlEvent == null)
             {
                 status.Text = "";
