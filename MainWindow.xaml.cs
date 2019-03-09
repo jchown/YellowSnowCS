@@ -35,6 +35,10 @@ namespace YellowSnow
             
             text.DocumentCompleted += OnTextLoadCompleted;
             map.MouseMove += OnMapMouseMoved;
+
+            UpdateCheckedTheme();
+            ThemeYS.Checked += (s, e) => SetTheme(Themes.YELLOW_SNOW);
+            ThemeDB.Checked += (s, e) => SetTheme(Themes.DARK_BRUISES);
         }
 
         public void OnFileOpen(object sender, RoutedEventArgs e)
@@ -123,7 +127,7 @@ namespace YellowSnow
                 if (!annotater.IsInWorkspace(filename))
                     continue;
 
-                Title = "Yellow Snow - " + filename;
+                Title = " Yellow Snow - " + filename;
                 status.Text = "Analysing " + filename;
                 this.filename = filename;
                 var annotations = annotater.GetAnnotations(filename);
@@ -172,6 +176,19 @@ namespace YellowSnow
             int to = (int) ((top + windowHeight) * annotations.GetNumLines()) / documentHeight;
 
             map.Source = ToWPF(MapView.RenderBox(mapImage, annotations, from, to));
+        }
+
+        private void SetTheme(Theme theme)
+        {
+            Themes.Selected = theme;
+            UpdateCheckedTheme();
+            SetAnnotations(annotations);
+        }
+
+        private void UpdateCheckedTheme()
+        {
+            ThemeYS.IsChecked = Themes.Selected == Themes.YELLOW_SNOW;
+            ThemeDB.IsChecked = Themes.Selected == Themes.DARK_BRUISES;
         }
 
         public static BitmapSource ToWPF(Image myImage)

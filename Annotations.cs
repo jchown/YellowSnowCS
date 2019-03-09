@@ -52,14 +52,17 @@ namespace YellowSnow
 
         public string GetHTML()
         {
+            var theme = Themes.Selected;
             var html = new StringBuilder("<html>");
             html.Append("<head><style>");
+            html.Append(string.Format("body {{ background-color: {0}; color: {1}; }}", ToHtml(theme.bgOld), ToHtml(theme.fgNew)));
             html.Append(".line {  white-space: pre; font-family: Courier; width:100%; font-size: 10pt; }");
 
             for (int i = 0; i < 256; i++)
             {
-                var color = Colorizer.GetColor(i);
-                html.Append(string.Format(".level_{0} {{ background-color: {1} }}", i, ToHtml(color)));
+                var fg = Colorizer.GetFGColor(i);
+                var bg = Colorizer.GetBGColor(i);
+                html.Append(string.Format(".level_{0} {{ background-color: {1}; color: {2}; }}", i, ToHtml(bg), ToHtml(fg)));
             }
             html.Append("</style></head>");
 
@@ -90,7 +93,7 @@ namespace YellowSnow
                 for (int y = 0; y < height; y++)
                 {
                     var level = GetLevel((y * GetNumLines()) / height);
-                    var color = Colorizer.GetColor(level);
+                    var color = Colorizer.GetBGColor(level);
                     for (int x = 0; x < width; x++)
                         bitmap.SetPixel(x, y, color);
                 }

@@ -67,8 +67,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Themes.cs" />
     <Compile Include="StringExt.cs" />
     <Compile Include="Strings.cs" />
+    <Compile Include="Theme.cs" />
     <Compile Include="Workspace.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

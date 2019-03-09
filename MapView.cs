@@ -18,8 +18,8 @@ namespace YellowSnow
             if (buffer == null || buffer.Width != imageWidth || buffer.Height != source.Height)
                 buffer = new Bitmap(imageWidth, imageHeight);
 
-            int x1 = 1;
-            int x2 = imageWidth - 2;
+            int x1 = 5;
+            int x2 = imageWidth - 5;
             int y1 = (start * imageHeight) / annotations.GetNumLines();
             int y2 = ((end + 1) * imageHeight) / annotations.GetNumLines();
 
@@ -27,7 +27,9 @@ namespace YellowSnow
             {
                 graphics.DrawImage(source, 0, 0);
 
-                var pen = new Pen(Brushes.DarkGray);
+                var brush = new SolidBrush(Themes.Selected.fgOld);
+                var pen = new Pen(brush);
+                pen.Width = 2;
 
                 graphics.DrawRectangle(pen, x1, y1, x2 - x1, y2 - y1);
             }

@@ -4,14 +4,24 @@ namespace YellowSnow
 {
     class Colorizer
     {
-        public static Color GetColor(int level)
+        public static Color GetBGColor(int level)
         {
-            Color from = Color.FromArgb(255, 255, 255);
-            Color to = Color.FromArgb(255, 255, 0);
+            Color from = Themes.Selected.bgOld;
+            Color to = Themes.Selected.bgNew;
 
-//            Color from = Color.FromArgb(40, 40, 40);
-//          Color to = Color.MediumPurple;
+            return GetColor(level, from, to);
+        }
 
+        public static Color GetFGColor(int level)
+        {
+            Color from = Themes.Selected.fgOld;
+            Color to = Themes.Selected.fgNew;
+
+            return GetColor(level, from, to);
+        }
+
+        private static Color GetColor(int level, Color from, Color to)
+        {
             float dR = to.R - from.R;
             float dG = to.G - from.G;
             float dB = to.B - from.B;
