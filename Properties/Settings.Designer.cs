@@ -34,5 +34,17 @@ namespace YellowSnow.Properties {
                 this["Theme"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int FontPointSize {
+            get {
+                return ((int)(this["FontPointSize"]));
+            }
+            set {
+                this["FontPointSize"] = value;
+            }
+        }
     }
 }

@@ -37,6 +37,11 @@ namespace YellowSnow
             text.DocumentCompleted += OnTextLoadCompleted;
             map.MouseMove += OnMapMouseMoved;
 
+            UpdateFontPointSize();
+            FontPS8.Checked += (s, e) => SetFontPointSize(8);
+            FontPS10.Checked += (s, e) => SetFontPointSize(10);
+            FontPS12.Checked += (s, e) => SetFontPointSize(12);
+
             UpdateCheckedTheme();
             ThemeYS.Checked += (s, e) => SetTheme(Themes.YELLOW_SNOW);
             ThemeDB.Checked += (s, e) => SetTheme(Themes.DARK_BRUISES);
@@ -197,6 +202,20 @@ namespace YellowSnow
         {
             ThemeYS.IsChecked = Themes.Selected == Themes.YELLOW_SNOW;
             ThemeDB.IsChecked = Themes.Selected == Themes.DARK_BRUISES;
+        }
+
+        private void SetFontPointSize(int pointSize)
+        {
+            Font.PointSize = pointSize;
+            UpdateFontPointSize();
+            SetAnnotations(annotations);
+        }
+
+        private void UpdateFontPointSize()
+        {
+            FontPS8.IsChecked = Font.PointSize == 8;
+            FontPS10.IsChecked = Font.PointSize == 10;
+            FontPS12.IsChecked = Font.PointSize == 12;
         }
 
         public static BitmapSource ToWPF(Image myImage)

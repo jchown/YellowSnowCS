@@ -56,7 +56,7 @@ namespace YellowSnow
             var html = new StringBuilder("<html>");
             html.Append("<head><style>");
             html.Append(string.Format("body {{ background-color: {0}; color: {1}; }}", ToHtml(theme.bgOld), ToHtml(theme.fgNew)));
-            html.Append(".line {  white-space: pre; font-family: Courier; width:100%; font-size: 10pt; }");
+            html.Append(string.Format(".line {{  white-space: pre; font-family: Courier; width:100%; font-size: {0}pt; }}", Font.PointSize));
 
             for (int i = 0; i < 256; i++)
             {

@@ -19,9 +19,9 @@
                     <MenuItem Name="ThemeDB" Header="Dark Bruise" IsCheckable="True"/>
                 </MenuItem>
                 <MenuItem Header="_Font Size">
-                    <MenuItem Header="8pt"/>
-                    <MenuItem Header="10pt"/>
-                    <MenuItem Header="12pt"/>
+                    <MenuItem Name="FontPS8" Header="8pt" IsCheckable="True"/>
+                    <MenuItem Name="FontPS10" Header="10pt" IsCheckable="True"/>
+                    <MenuItem Name="FontPS12" Header="12pt" IsCheckable="True"/>
                 </MenuItem>
             </MenuItem>
         </Menu>
