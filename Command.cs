@@ -6,7 +6,8 @@ namespace YellowSnow
 {
     public class Command
     {
-        Strings output = new Strings();
+        private Strings output = new Strings();
+        private int exitCode;
 
         public Command(string program, string dir, Strings arguments, params string[] envVars)
         {
@@ -26,23 +27,16 @@ namespace YellowSnow
                     process.StartInfo.Environment.Add(env.Substring(0, eq), env.Substring(eq + 1));
                 }
 
-                process.OutputDataReceived += (sender, rcv) => Log(rcv.Data);
-                process.ErrorDataReceived += (sender, rcv) => Log(rcv.Data);
+                process.OutputDataReceived += (sender, rcv) => OnData(rcv.Data);
+                process.ErrorDataReceived += (sender, rcv) => OnData(rcv.Data);
                 process.Start();
                 process.BeginOutputReadLine();
                 process.BeginErrorReadLine();
-                if (!process.WaitForExit(10000))
-                {
-                    throw new Exception("Timeout waiting " + program);
-                }
-            }
-        }
 
-        private void Log(string data)
-        {
-            lock (output)
-            {
-                output.Add(data);
+                if (!process.WaitForExit(10000))
+                    throw new Exception("Timeout waiting " + program);
+  
+                exitCode = process.ExitCode;
             }
         }
 
@@ -51,12 +45,17 @@ namespace YellowSnow
             return output;
         }
 
-        public XmlDocument GetXML()
+        public int GetExitCode()
         {
-            var xml = new XmlDocument();
-            var output = GetOutput();
-            xml.LoadXml(output.Join("\n"));
-            return xml;
+            return exitCode;
+        }
+
+        private void OnData(string data)
+        {
+            lock (output)
+            {
+                output.Add(data);
+            }
         }
     }
 }

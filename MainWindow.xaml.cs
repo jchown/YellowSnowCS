@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Windows.Media.Imaging;
 using System.Runtime.InteropServices;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+using System.IO;
 
 namespace YellowSnow
 {
@@ -31,8 +32,8 @@ namespace YellowSnow
             annotaterNull = new AnnotaterNull();
 
             // Open("C:\\Work\\Burly\\BurlyChassisHomepage\\config.toml");
-            Open("C:\\Users\\Jez\\eclipse-workspace\\mvr.api-merge\\src\\starship\\mvr\\model\\db\\FriendsDB.java");
-            // Open("C:\\Work\\vTime\\vTime_Now_iOS\\bin\\prebuild.xml");#
+            //Open("C:\\Work\\vTime\\mvr.api\\src\\starship\\mvr\\model\\db\\FriendsDB.java");
+            Open("C:\\Work\\vTime\\vTime_Now_Android\\bin\\prebuild.xml");
 
             text.DocumentCompleted += OnTextLoadCompleted;
             map.MouseMove += OnMapMouseMoved;
@@ -129,6 +130,11 @@ namespace YellowSnow
 
         void Open(string filename)
         {
+            if (!File.Exists(filename) && !Directory.Exists(filename))
+            {
+                throw new FileNotFoundException(filename);
+            }
+
             status.Text = "Loading " + filename;
 
             foreach (Annotater annotater in annotaters)

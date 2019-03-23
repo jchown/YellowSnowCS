@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System;
 using System.IO;
+using System.Xml;
 
 namespace YellowSnow
 {
@@ -34,6 +35,13 @@ namespace YellowSnow
         internal static Strings Load(string filename)
         {
             return new Strings(File.ReadAllText(filename).Split('\n'));
+        }
+
+        public XmlDocument ToXML()
+        {
+            var xml = new XmlDocument();
+            xml.LoadXml(Join("\n"));
+            return xml;
         }
     }
 }

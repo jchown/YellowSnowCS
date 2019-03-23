@@ -30,7 +30,11 @@ namespace YellowSnow
             Command command = new Command(program, dir, arguments);
 
             List<Line> lines = new List<Line>();
-            var entries = command.GetXML().GetElementsByTagName("entry");
+            var output = command.GetOutput();
+            if (command.GetExitCode() != 0)
+                throw GetCommandException(command);
+
+            var entries = output.ToXML().GetElementsByTagName("entry");
             for (int i = 0; i < entries.Count; i++)
             {
                 // <entry line-number="1555">
@@ -57,6 +61,17 @@ namespace YellowSnow
             }
 
             return new AnnotationsVCS(lines);
+        }
+
+        private Exception GetCommandException(Command command)
+        {
+            foreach (var line in command.GetOutput())
+            {
+                if (line.StartsWith("svn:"))
+                    throw new Exception(line);
+            }
+
+            throw new Exception("svn returned exit code " + command.GetExitCode());
         }
 
         private XmlNode GetFirstChildElement(XmlNode parent, string name)
