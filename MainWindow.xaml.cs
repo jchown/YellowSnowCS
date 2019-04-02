@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using System.Drawing;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Runtime.InteropServices;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using System.IO;
+using System.Windows.Media;
 
 namespace YellowSnow
 {
@@ -31,12 +33,12 @@ namespace YellowSnow
 
             annotaterNull = new AnnotaterNull();
 
-            // Open("C:\\Work\\Burly\\BurlyChassisHomepage\\config.toml");
-            //Open("C:\\Work\\vTime\\mvr.api\\src\\starship\\mvr\\model\\db\\FriendsDB.java");
-            Open("C:\\Work\\vTime\\vTime_Now_Android\\bin\\prebuild.xml");
+            Open("C:\\Work\\vTime\\mvr.api\\src\\starship\\mvr\\model\\db\\FriendsDB.java");
+            //Open("C:\\Work\\vTime\\vTime_Now_Android\\bin\\prebuild.xml");
 
             text.DocumentCompleted += OnTextLoadCompleted;
-            map.MouseMove += OnMapMouseMoved;
+            map.MouseMove += OnMapMouseEvent;
+            map.MouseDown += OnMapMouseEvent;
 
             UpdateFontPointSize();
             FontPS8.Checked += (s, e) => SetFontPointSize(8);
@@ -46,6 +48,8 @@ namespace YellowSnow
             UpdateCheckedTheme();
             ThemeYS.Checked += (s, e) => SetTheme(Themes.YELLOW_SNOW);
             ThemeDB.Checked += (s, e) => SetTheme(Themes.DARK_BRUISES);
+
+            ApplyTheme();
         }
 
         public void OnFileOpen(object sender, RoutedEventArgs e)
@@ -79,7 +83,7 @@ namespace YellowSnow
             UpdateMap();
         }
 
-        private void OnMapMouseMoved(object sender, EventArgs e)
+        private void OnMapMouseEvent(object sender, EventArgs e)
         {
             if (annotations == null)
                 return;
@@ -200,8 +204,34 @@ namespace YellowSnow
         private void SetTheme(Theme theme)
         {
             Themes.Selected = theme;
+            ApplyTheme();
             UpdateCheckedTheme();
             SetAnnotations(annotations);
+        }
+
+        private void ApplyTheme()
+        {
+            var bg = new SolidColorBrush(ToWPF(Themes.Selected.bgOld));
+            var fg = new SolidColorBrush(ToWPF(Themes.Selected.fgOld));
+
+            text.ScrollBarsEnabled = false;
+//            ApplyTheme(bg, fg, menubar);
+//            ApplyTheme(bg, fg, menuFile);
+//            ApplyTheme(bg, fg, menuView);
+            ApplyTheme(bg, fg, statusbar);
+            ApplyTheme(bg, fg, status);
+        }
+
+        private void ApplyTheme(SolidColorBrush bg, SolidColorBrush fg, System.Windows.Controls.Control control)
+        {
+            control.Background = bg;
+            control.Foreground = fg;
+        }
+
+        private void ApplyTheme(SolidColorBrush bg, SolidColorBrush fg, System.Windows.Controls.TextBlock text)
+        {
+            text.Background = bg;
+            text.Foreground = fg;
         }
 
         private void UpdateCheckedTheme()
@@ -222,6 +252,11 @@ namespace YellowSnow
             FontPS8.IsChecked = Font.PointSize == 8;
             FontPS10.IsChecked = Font.PointSize == 10;
             FontPS12.IsChecked = Font.PointSize == 12;
+        }
+
+        public static System.Windows.Media.Color ToWPF(System.Drawing.Color color)
+        {
+            return System.Windows.Media.Color.FromRgb(color.R, color.G, color.B);
         }
 
         public static BitmapSource ToWPF(Image myImage)

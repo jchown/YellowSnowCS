@@ -54,28 +54,28 @@ namespace YellowSnow
         {
             var theme = Themes.Selected;
             var html = new StringBuilder("<html>");
-            html.Append("<head><style>");
-            html.Append(string.Format("body {{ background-color: {0}; color: {1}; }}", ToHtml(theme.bgOld), ToHtml(theme.fgNew)));
-            html.Append(string.Format(".line {{  white-space: pre; font-family: Courier; width:100%; font-size: {0}pt; }}", Font.PointSize));
+            html.Append("<head><style>\n");
+            html.Append(string.Format("body {{ background-color: {0}; color: {1}; }}\n", ToHtml(theme.bgOld), ToHtml(theme.fgNew)));
+            html.Append(string.Format(".line {{  white-space: pre; font-family: Courier; width:100%; font-size: {0}pt; }}\n", Font.PointSize));
 
             for (int i = 0; i < 256; i++)
             {
                 var fg = Colorizer.GetFGColor(i);
                 var bg = Colorizer.GetBGColor(i);
-                html.Append(string.Format(".level_{0} {{ background-color: {1}; color: {2}; }}", i, ToHtml(bg), ToHtml(fg)));
+                html.Append(string.Format(".level_{0} {{ background-color: {1}; color: {2}; }}\n", i, ToHtml(bg), ToHtml(fg)));
             }
-            html.Append("</style></head>");
+            html.Append("</style></head>\n");
 
-            html.Append("<body>");
+            html.Append("<body><div style='width=100%;height=100%;overflow:scroll;'>\n");
             for (int i = 0; i < GetNumLines(); i++)
             {
-                html.Append(string.Format("<div class='line level_{0}' id='line_{1}'>", GetLevel(i), i));
-                html.Append(string.Format("<a name='line_{0}' href='#line_{0}'></a>", i));
+                html.Append(string.Format("<div class='line level_{0}' id='line_{1}'>\n", GetLevel(i), i));
+                html.Append(string.Format("<a name='line_{0}' href='#line_{0}'></a>\n", i));
                 html.Append(GetHTML(i));
                 html.Append("</div>");
             }
 
-            html.Append("</body></html>");
+            html.Append("</div></body></html>");
             return html.ToString();
         }
 

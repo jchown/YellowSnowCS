@@ -8,12 +8,12 @@
         mc:Ignorable="d"
         Title=" Yellow Snow" Height="450" Width="800">
     <DockPanel>
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_File">
+        <Menu Name="menubar" DockPanel.Dock="Top">
+            <MenuItem Name="menuFile" Header="_File">
                 <MenuItem Header="_Open" Click="OnFileOpen"/>
                 <MenuItem Header="Exit" Click="OnFileExit" />
             </MenuItem>
-            <MenuItem Header="_View">
+            <MenuItem Name="menuView" Header="_View">
                 <MenuItem Header="_Theme">
                     <MenuItem Name="ThemeYS" Header="Yellow Snow" IsCheckable="True"/>
                     <MenuItem Name="ThemeDB" Header="Dark Bruise" IsCheckable="True"/>
@@ -25,7 +25,7 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-        <StatusBar DockPanel.Dock="Bottom">
+        <StatusBar Name="statusbar" DockPanel.Dock="Bottom">
             <StatusBarItem>
                 <TextBlock Name="status" />
             </StatusBarItem>

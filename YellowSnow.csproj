@@ -69,6 +69,7 @@
     </ApplicationDefinition>
     <Compile Include="AnnotaterNull.cs" />
     <Compile Include="Font.cs" />
+    <Compile Include="ResourceManager.cs" />
     <Compile Include="Themes.cs" />
     <Compile Include="StringExt.cs" />
     <Compile Include="Strings.cs" />
@@ -98,6 +99,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Themes\LightStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MapView.cs" />
