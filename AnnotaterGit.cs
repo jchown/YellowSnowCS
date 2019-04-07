@@ -4,8 +4,6 @@ using System.Collections.Generic;
 
 namespace YellowSnow
 {
-
-
     class AnnotaterGit : Annotater
     {
         const string program = "git";
