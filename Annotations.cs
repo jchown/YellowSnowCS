@@ -66,7 +66,7 @@ namespace YellowSnow
             }
             html.Append("</style></head>\n");
 
-            html.Append("<body><div style='width=100%;height=100%;overflow:scroll;'>\n");
+            html.Append("<body><div style='width=100%;height=100%;'>\n");
             for (int i = 0; i < GetNumLines(); i++)
             {
                 html.Append(string.Format("<div class='line level_{0}' id='line_{1}'>\n", GetLevel(i), i));

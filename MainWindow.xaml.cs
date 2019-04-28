@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using System.IO;
 using System.Windows.Media;
+using System.Windows.Controls.Primitives;
 
 namespace YellowSnow
 {
@@ -220,6 +221,21 @@ namespace YellowSnow
 //            ApplyTheme(bg, fg, menuView);
             ApplyTheme(bg, fg, statusbar);
             ApplyTheme(bg, fg, status);
+            ApplyTheme(bg, fg, scrollx);
+            ApplyTheme(bg, fg, scrolly);
+        }
+
+        private void ApplyTheme(SolidColorBrush bg, SolidColorBrush fg, ScrollBar scrollBar)
+        {
+            var track = scrollBar.Track;
+            if (track != null)
+            {
+                ApplyTheme(bg, fg, (System.Windows.Controls.Control)scrollBar.Track.Thumb);
+                ApplyTheme(bg, fg, (System.Windows.Controls.Control)scrollBar.Track.DecreaseRepeatButton);
+                ApplyTheme(bg, fg, (System.Windows.Controls.Control)scrollBar.Track.IncreaseRepeatButton);
+            }
+
+            ApplyTheme(bg, fg, (System.Windows.Controls.Control) scrollBar);
         }
 
         private void ApplyTheme(SolidColorBrush bg, SolidColorBrush fg, System.Windows.Controls.Control control)

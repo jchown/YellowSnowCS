@@ -31,6 +31,8 @@
             </StatusBarItem>
         </StatusBar>
         <Image Name="map" DockPanel.Dock="Right" />
+        <ScrollBar Name="scrollx" Orientation="Horizontal" Minimum="1" Maximum="100" DockPanel.Dock="Bottom"/>
+        <ScrollBar Name="scrolly" Orientation="Vertical" Minimum="1" Maximum="100" DockPanel.Dock="Right" />
         <WindowsFormsHost>
             <wf:WebBrowser x:Name="text"/>
         </WindowsFormsHost>
